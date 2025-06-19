@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                 var showOptions by remember { mutableStateOf(false) }
 
                 var songList = mutableListOf<String>()
-                var artistList = mutableListOf<Number>()
+                var artistList = mutableListOf<String>()
                 var ratingList = mutableListOf<String>()
                 var commentList = mutableListOf<String>()
 
@@ -138,17 +138,15 @@ class MainActivity : ComponentActivity() {
                                     Spacer(modifier = Modifier.size(20.dp))
 
                                     Button(onClick = {
-//                                        var song by remember { mutableStateOf("") }
-//                                        var artist by remember { mutableStateOf("") }
-//                                        var ratings by remember { mutableStateOf("") }
-//                                        var comments by remember { mutableStateOf("") }
-//                                        var showOptions by remember { mutableStateOf(false) }
-//
-//                                        var songList = mutableListOf<String>()
-//                                        var artistList = mutableListOf<Number>()
-//                                        var ratingList = mutableListOf<String>()
-//                                        var commentList = mutableListOf<String>()
-                                        
+                                        songList.add(song)
+                                        artistList.add(artist)
+                                        ratingList.add(ratings)
+                                        commentList.add(comments)
+
+                                        song = ""
+                                        artist = ""
+                                        ratings = ""
+                                        comments = ""
                                     }) {
                                         Text(text = "Add")
                                     }
