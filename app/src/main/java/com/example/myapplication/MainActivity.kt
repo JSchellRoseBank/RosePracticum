@@ -52,11 +52,13 @@ class MainActivity : ComponentActivity() {
                 var showOptions by remember { mutableStateOf(false) }
                 var newPage by remember { mutableStateOf(false) }
                 var showPlaylist by remember { mutableStateOf(false) }
+                var showRatingAverage by remember { mutableStateOf(false) }
+                var averageRating by remember { mutableStateOf(0.0) }
 
-                var songList = mutableStateListOf<String>()
-                var artistList = mutableStateListOf<String>()
-                var ratingList = mutableStateListOf<String>()
-                var commentList = mutableStateListOf<String>()
+                var songList = remember {mutableStateListOf<String>()}
+                var artistList = remember {mutableStateListOf<String>()}
+                var ratingList = remember {mutableStateListOf<String>()}
+                var commentList = remember {mutableStateListOf<String>()}
 
 
                 if(!newPage) {
@@ -66,7 +68,6 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(start = 30.dp, top = 60.dp, end = 30.dp)
                     ){
-                        Text(text="testing")
                         Row {
                             Button(onClick = {
                                 showOptions = true
@@ -150,16 +151,13 @@ class MainActivity : ComponentActivity() {
                                         ratingList.add(ratings)
                                         commentList.add(comments)
 
-//                                        song = ""
-//                                        artist = ""
-//                                        ratings = ""
-//                                        comments = ""
+                                        song = ""
+                                        artist = ""
+                                        ratings = ""
+                                        comments = ""
                                     }) {
                                         Text(text = "Add")
                                     }
-
-                                    Text(text=song)
-                                    println(songList)
                                     Spacer(modifier = Modifier.size(30.dp))
                                 }
 
@@ -193,19 +191,40 @@ class MainActivity : ComponentActivity() {
                         }
 
                         if(showPlaylist) {
-                            ShowPlaylist(songList)
-                            for (x in songList) {
-                                Text(text = x)
-                            }
+                            ShowPlaylist(songList, artistList, ratingList, commentList)
                         }
 
-                        Button(onClick = {}) {
+                        Button(onClick = {
+                            showRatingAverage = true
+                        }) {
                             Text(text = "Show average Rating for playlist")
-                            
+                        }
+
+                        if(showRatingAverage) {
+                            var totalRating = 0.0
+                            var validRatingCount = 0
+
+                            for(i in ratingList.indices) {
+                                val ratingss = ratingList[i].toDoubleOrNull()
+                                if(ratingss != null && ratingss in 1.0..5.0) {
+                                    totalRating += ratingss
+                                    validRatingCount++
+                                }
+                            }
+
+                            averageRating = if (validRatingCount > 0) {
+                                totalRating / validRatingCount
+                            } else {
+                                0.0
+                            }
+
+                            Text(text = "Your average rateing is: $averageRating")
                         }
 
                         Button(onClick = {
                             newPage = false
+                            showRatingAverage = false
+                            showPlaylist = false
                         }) {
                             Text(text = "Back")
                         }
@@ -219,11 +238,11 @@ class MainActivity : ComponentActivity() {
     }
 
 @Composable
-fun ShowPlaylist(songList: MutableList<String>) {
+fun ShowPlaylist(songList: MutableList<String>, artistList: MutableList<String>, ratingList: MutableList<String>, commentList: MutableList<String>) {
     Column(modifier = Modifier.padding(5.dp)) {
-        songList.forEachIndexed { index, song ->
+        songList.zip(artistList).forEachIndexed { index, (song, artist) ->
             Column(modifier = Modifier.padding(top = 15.dp)) {
-                Text(text = song)
+                Text(text = "$song, $artist")
             }
         }
     }
