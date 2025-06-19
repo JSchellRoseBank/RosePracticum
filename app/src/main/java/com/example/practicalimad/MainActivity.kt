@@ -1,6 +1,7 @@
 package com.example.practicalimad
 
 import android.R.attr.text
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,11 +37,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            var song = mutableListOf<String>()
-            var artist = mutableListOf("")
-            var ratings = mutableListOf("")
-            var comments = mutableListOf("")
-            var addToPlaylist by remember { mutableStateOf(false) }
+            var song by remember { mutableStateOf("") }
+            var artist by remember { mutableStateOf("") }
+            var ratings by remember { mutableStateOf("") }
+            var comments by remember { mutableStateOf("") }
+            var showOptions by remember { mutableStateOf(false) }
 
             PracticalIMADTheme {
                 Column(
@@ -52,26 +53,71 @@ class MainActivity : ComponentActivity() {
                     Text(text="testing")
                     Row {
                         Button(onClick = {
-                            addToPlaylist = true
+                            showOptions = true
                         }) { Text(text = "Add To Playlist") }
+
                     }
-                    if(addToPlaylist) {
-                        Row {
-                            OutlinedTextField(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .border(1.dp, Color.Gray, shape = RoundedCornerShape(12.dp)),
-                                textStyle = TextStyle(color = Color.Black),
-                                value = song,
-                                onValueChange = {
-                                        text ->
-                                    song.add(text)
-                                },
-                                placeholder = {
-                                    Text(text = "Enter Time Of Day Here")
-                                },
-                                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
-                            )
+                    Row {
+                        if(showOptions) {
+                            Column {
+                                OutlinedTextField(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .border(1.dp, Color.Gray, shape = RoundedCornerShape(12.dp)),
+                                    textStyle = TextStyle(color = Color.Black),
+                                    value = song,
+                                    onValueChange = {
+                                            text -> song = text
+                                    },
+                                    placeholder = {
+                                        Text(text="Enter Song's Name")
+                                    },
+                                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
+                                )
+                                OutlinedTextField(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .border(1.dp, Color.Gray, shape = RoundedCornerShape(12.dp)),
+                                    textStyle = TextStyle(color = Color.Black),
+                                    value = artist,
+                                    onValueChange = {
+                                            text -> artist = text
+                                    },
+                                    placeholder = {
+                                        Text(text="Enter Artist's Name")
+                                    },
+                                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
+                                )
+                                OutlinedTextField(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .border(1.dp, Color.Gray, shape = RoundedCornerShape(12.dp)),
+                                    textStyle = TextStyle(color = Color.Black),
+                                    value = ratings,
+                                    onValueChange = {
+                                            text -> ratings = text
+                                    },
+                                    placeholder = {
+                                        Text(text="Enter Rating 1-5")
+                                    },
+                                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
+                                )
+                                OutlinedTextField(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .border(1.dp, Color.Gray, shape = RoundedCornerShape(12.dp)),
+                                    textStyle = TextStyle(color = Color.Black),
+                                    value = comments,
+                                    onValueChange = {
+                                            text -> comments = text
+                                    },
+                                    placeholder = {
+                                        Text(text="Enter Song's Name")
+                                    },
+                                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
+                                )
+                            }
+
                         }
                     }
                 }
@@ -80,5 +126,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun 
