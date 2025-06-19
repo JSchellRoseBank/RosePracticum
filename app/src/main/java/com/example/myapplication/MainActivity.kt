@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,18 +33,27 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
+                val context = LocalContext.current
+
                 var song by remember { mutableStateOf("") }
                 var artist by remember { mutableStateOf("") }
                 var ratings by remember { mutableStateOf("") }
                 var comments by remember { mutableStateOf("") }
                 var showOptions by remember { mutableStateOf(false) }
-                    Column(
+
+                var songList = mutableListOf<String>()
+                var artistList = mutableListOf<Number>()
+                var ratingList = mutableListOf<String>()
+                var commentList = mutableListOf<String>()
+
+                Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxSize()
@@ -124,6 +135,24 @@ class MainActivity : ComponentActivity() {
                                         },
                                         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
                                     )
+                                    Spacer(modifier = Modifier.size(20.dp))
+
+                                    Button(onClick = {
+//                                        var song by remember { mutableStateOf("") }
+//                                        var artist by remember { mutableStateOf("") }
+//                                        var ratings by remember { mutableStateOf("") }
+//                                        var comments by remember { mutableStateOf("") }
+//                                        var showOptions by remember { mutableStateOf(false) }
+//
+//                                        var songList = mutableListOf<String>()
+//                                        var artistList = mutableListOf<Number>()
+//                                        var ratingList = mutableListOf<String>()
+//                                        var commentList = mutableListOf<String>()
+                                        
+                                    }) {
+                                        Text(text = "Add")
+                                    }
+
                                     Spacer(modifier = Modifier.size(30.dp))
                                 }
 
@@ -132,12 +161,15 @@ class MainActivity : ComponentActivity() {
 
                         Row {
                             Button(onClick = {
+                                val next = Intent(this@MainActivity, DetailedViewScreen::class.java);
+                                startActivity(next)
                             })
                             { Text(text = "Continue to Detailed View") }
                         }
 
                         Row {
                             Button(onClick = {
+                                (context as? Activity)?.finishAffinity()
                             })
                             { Text(text = "Exit") }
                         }
