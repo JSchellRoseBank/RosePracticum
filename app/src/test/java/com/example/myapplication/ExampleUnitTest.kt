@@ -1,4 +1,4 @@
-package com.example.practicalimad
+package com.example.myapplication
 
 import org.junit.Test
 
