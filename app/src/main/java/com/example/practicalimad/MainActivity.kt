@@ -2,6 +2,7 @@ package com.example.practicalimad
 
 import android.R.attr.text
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,8 +10,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -60,6 +63,7 @@ class MainActivity : ComponentActivity() {
                     Row {
                         if(showOptions) {
                             Column {
+                                Spacer(modifier = Modifier.size(30.dp))
                                 OutlinedTextField(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(12.dp))
@@ -74,6 +78,9 @@ class MainActivity : ComponentActivity() {
                                     },
                                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
                                 )
+
+                                Spacer(modifier = Modifier.size(20.dp))
+
                                 OutlinedTextField(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(12.dp))
@@ -88,6 +95,9 @@ class MainActivity : ComponentActivity() {
                                     },
                                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
                                 )
+
+                                Spacer(modifier = Modifier.size(20.dp))
+
                                 OutlinedTextField(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(12.dp))
@@ -102,6 +112,9 @@ class MainActivity : ComponentActivity() {
                                     },
                                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
                                 )
+
+                                Spacer(modifier = Modifier.size(20.dp))
+
                                 OutlinedTextField(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(12.dp))
@@ -116,9 +129,18 @@ class MainActivity : ComponentActivity() {
                                     },
                                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
                                 )
+                                Spacer(modifier = Modifier.size(30.dp))
                             }
 
                         }
+                    }
+
+                    Row {
+                        Button(onClick = {
+                            val next = Intent(this@MainActivity, Questions::class.java);
+                            startActivity(next)
+                        })
+                            { Text(text = "Continue to Detailed View") }
                     }
                 }
             }
